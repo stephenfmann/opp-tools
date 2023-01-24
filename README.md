@@ -1,4 +1,8 @@
+## Fork
 
+Forked to update requirements and packages for modern versions of MYSQL and Python on Ubuntu 22.04.
+
+## Original
 This is a collection of tools to track philosophy papers and blog posts that
 recently appeared somewhere on the open internet.
 
