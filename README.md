@@ -2,9 +2,13 @@
 
 Forked to update requirements and packages for modern versions of MYSQL and Python on Ubuntu 22.04.
 
-Requirements:
-+ lxml: `sudo pip install lxml`
+### Requirements:
+
+**Ubuntu packages**
 + default-libmysqlclient-dev: `sudo apt install default-libmysqlclient-dev`
+
+**Python packages**
++ lxml: `sudo pip install lxml`
 + mysqlclient: `sudo pip install mysqlclient`
 + nltk: `sudo pip install nltk`
 + selenium: `sudo pip install selenium`
@@ -12,7 +16,16 @@ Requirements:
 + scikit-learn (aka sklearn): `sudo pip install scikit-learn`
 + googleapiclient: `sudo pip install google-api-python-client`
 + debug: `sudo pip install debug`
-+ Create a google API key https://developers.google.com/custom-search/v1/introduction and search engine https://programmablesearchengine.google.com/controlpanel/all; fill in the relevant fields of `config.json`
+
+**Google**
++ Create a google API key https://developers.google.com/custom-search/v1/introduction 
++ Create a custom search engine https://programmablesearchengine.google.com/controlpanel/all
++ Fill in the relevant fields of `config.json`, namely `google_api_key` and `google_cse_id`
+
+**Gecko & Firefox**
++ Fill in the relevant fields of `config.json`, namely `gecko_location` and `firefox_location`
+
+
 
 
 ## Original

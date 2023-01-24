@@ -9,7 +9,6 @@ test/extractortests/*.xml
 doc/
 log/*
 
-
 _del*
 _out*
 \#*\#
@@ -20,3 +19,5 @@ __pycache__/
 env/
 build/
 .cache/
+
+geckodriver.log
