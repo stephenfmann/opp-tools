@@ -2,6 +2,15 @@
 
 Forked to update requirements and packages for modern versions of MYSQL and Python on Ubuntu 22.04.
 
+Requirements:
++ lxml: `sudo pip install lxml`
++ default-libmysqlclient-dev: `sudo apt install default-libmysqlclient-dev`
++ mysqlclient: `sudo pip install mysqlclient`
++ nltk: `sudo pip install nltk`
++ selenium: `sudo pip install selenium`
++ numpy: `sudo pip install numpy`
++ scikit-learn (aka sklearn): `sudo pip install scikit-learn`
+
 ## Original
 This is a collection of tools to track philosophy papers and blog posts that
 recently appeared somewhere on the open internet.
