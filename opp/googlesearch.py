@@ -1,4 +1,5 @@
 #!/usr/bin/python3.4
+import sys
 import re
 import time
 from urllib.parse import quote_plus, parse_qs, urlparse
@@ -8,7 +9,7 @@ from urllib.error import HTTPError
 #from http.cookiejar import MozillaCookieJar
 #from bs4 import BeautifulSoup
 try:
-    from .debug import debug, debuglevel
+    from debug import debug, debuglevel
 except SystemError:
     # command line usage
     import os.path
@@ -20,7 +21,7 @@ except SystemError:
 
 from googleapiclient.discovery import build
 
-from .config import config
+from config import config
 
 GOOGLE_API_KEY = config['google_api_key']
 GOOGLE_CSE_ID = config['google_cse_id']

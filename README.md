@@ -10,6 +10,10 @@ Requirements:
 + selenium: `sudo pip install selenium`
 + numpy: `sudo pip install numpy`
 + scikit-learn (aka sklearn): `sudo pip install scikit-learn`
++ googleapiclient: `sudo pip install google-api-python-client`
++ debug: `sudo pip install debug`
++ Create a google API key https://developers.google.com/custom-search/v1/introduction and search engine https://programmablesearchengine.google.com/controlpanel/all; fill in the relevant fields of `config.json`
+
 
 ## Original
 This is a collection of tools to track philosophy papers and blog posts that
