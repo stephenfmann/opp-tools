@@ -21,3 +21,4 @@ build/
 .cache/
 
 geckodriver.log
+sandbox.py
