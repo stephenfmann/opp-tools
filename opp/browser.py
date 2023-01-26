@@ -2,9 +2,12 @@
 import os
 import time
 import logging
+
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+
 from selenium.common.exceptions import *
 if __name__ == '__main__':
     import sys
@@ -60,14 +63,19 @@ class ActualBrowser(Firefox):
         logger.debug('initializing browser')
         options = Options()
         options.headless = True
-        binarypath = '/home/wo/install/firefox/firefox'
-        options.binary_location = binarypath
-        #binary = FirefoxBinary('/home/wo/install/firefox/firefox-bin') 
-        geckodriverpath = '/home/wo/install/geckodriver'
-        super().__init__(executable_path=geckodriverpath,
-                         #firefox_binary=binary,
-                         options=options,
-                         log_path='/tmp/selenium.log')
+        
+        #binarypath = '/snap/bin/firefox'
+        #options.binary_location = binarypath
+        #geckodriverpath = '/snap/bin/firefox.geckodriver'
+        
+        #driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
+        
+        super().__init__(
+                        #executable_path=geckodriverpath,
+                        service=Service(GeckoDriverManager().install()),
+                        options=options#,
+                        #log_path='/tmp/selenium.log'
+                        )
 
     def goto(self, url, timeout=30):
         """
