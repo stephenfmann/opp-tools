@@ -16,6 +16,7 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + scikit-learn (aka sklearn): `sudo pip install scikit-learn`
 + googleapiclient: `sudo pip install google-api-python-client`
 + debug: `sudo pip install debug`
++ webdriver-manager: `sudo pip install webdriver-manager`
 
 **Google**
 + Create a google API key https://developers.google.com/custom-search/v1/introduction 
@@ -23,9 +24,11 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + Fill in the relevant fields of `config.json`, namely `google_api_key` and `google_cse_id`
 
 **Gecko & Firefox**
-+ Fill in the relevant fields of `config.json`, namely `gecko_location` and `firefox_location`
++ Install firefox as deb (instead of via snap): follow the instructions here https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 
-
+**Other**
++ Create folder `log`
++ Change `logfile` in `config.json` so it points to the log folder you just created
 
 
 ## Original
