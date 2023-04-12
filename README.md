@@ -7,6 +7,10 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 **Ubuntu packages**
 + default-libmysqlclient-dev: `sudo apt install default-libmysqlclient-dev`
 
+**Firefox & Geckodriver**
++ Make sure both firefox and geckodriver are installed via snap. 
++ `whereis geckodriver` should return `/snap/bin/geckodriver`.
+
 **Python packages**
 + lxml: `sudo pip install lxml`
 + mysqlclient: `sudo pip install mysqlclient`
@@ -23,9 +27,6 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + Create a google API key https://developers.google.com/custom-search/v1/introduction 
 + Create a custom search engine https://programmablesearchengine.google.com/controlpanel/all
 + Fill in the relevant fields of `config.json`, namely `google_api_key` and `google_cse_id`
-
-**Gecko & Firefox**
-+ Install firefox as deb (instead of via snap): follow the instructions here https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 
 **Other**
 + Create folder `log`
