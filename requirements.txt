@@ -1,0 +1,10 @@
+lxml
+mysqlclient
+nltk
+selenium
+numpy
+scikit-learn
+google-api-python-client
+debug
+webdriver-manager
+beautifulsoup4

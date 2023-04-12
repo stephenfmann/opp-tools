@@ -17,6 +17,7 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + googleapiclient: `sudo pip install google-api-python-client`
 + debug: `sudo pip install debug`
 + webdriver-manager: `sudo pip install webdriver-manager`
++ BeautifulSoup4: `sudo pip install beautifulsoup4`
 
 **Google**
 + Create a google API key https://developers.google.com/custom-search/v1/introduction 
