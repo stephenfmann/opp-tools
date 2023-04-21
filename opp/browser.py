@@ -72,7 +72,7 @@ class ActualBrowser(Firefox):
         
         super().__init__(
                         #executable_path=geckodriverpath,
-                        service=Service(GeckoDriverManager().install()),
+                        # service=Service(GeckoDriverManager().install()),
                         options=options#,
                         #log_path='/tmp/selenium.log'
                         )
