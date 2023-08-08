@@ -22,7 +22,8 @@ from opp.exceptions import *
 
 PDFSEPARATE = '/usr/bin/pdfseparate'
 PDFTOPPM = '/usr/bin/pdftoppm'
-TESSERACT = '/usr/local/bin/tesseract'
+# TESSERACT = '/usr/local/bin/tesseract'    # SFM
+TESSERACT = '/usr/bin/tesseract'            # SFM
 
 OCR_DPI = 300
 

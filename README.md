@@ -11,6 +11,13 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + Make sure both firefox and geckodriver are installed via snap. 
 + `whereis geckodriver` should return `/snap/bin/geckodriver`.
 
+**Document conversion**
++ LibreOffice: 
+  + Add LibreOffice Personal Package Archive (PPA): `sudo add-apt-repository ppa:libreoffice/ppa`
+  + Update apt: `sudo apt update`
+  + Install LibreOffice: `sudo apt install libreoffice`
++ [either unoserver or unoconv: `sudo pip install unoserver` or `sudo apt-get install unoconv`]
+
 **Python packages**
 + lxml: `sudo pip install lxml`
 + mysqlclient: `sudo pip install mysqlclient`
@@ -22,6 +29,19 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
 + debug: `sudo pip install debug`
 + webdriver-manager: `sudo pip install webdriver-manager`
 + BeautifulSoup4: `sudo pip install beautifulsoup4`
+
+**Perl packages**
++ Text::Capitalize `cpan Text::Capitalize`
++ Text::Aspell `cpan Text::Aspell`
++ Text::Unidecode `cpan Text::Unidecode`
++ Statistics::Lite `cpan Statistics::Lite`
++ Text::Names `cpan Text::Names`
++ JSON `cpan JSON`
++ DBI `cpan DBI`
++ Config::JSON `cpan Config::JSON`
++ String::Approx `cpan String::Approx`
++ Lingua::Stem::Snowball `cpan Lingua::Stem::Snowball`
++ DBD::mysql `cpan DBD::mysql`
 
 **Google**
 + Create a google API key https://developers.google.com/custom-search/v1/introduction 

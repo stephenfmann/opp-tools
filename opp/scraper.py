@@ -14,6 +14,7 @@ from MySQLdb._exceptions import IntegrityError # SFM
 from opp import db
 from opp import error
 from opp import util
+from opp import philpaperssearch as pps
 from opp.models import Source, Link, Doc, categories
 from opp.debug import debug
 from opp.browser import Browser, stop_browser, kill_all_browsers
@@ -21,6 +22,12 @@ from opp.webpage import Webpage
 from opp.pdftools.pdftools import pdfinfo
 from opp.pdftools.pdf2xml import pdf2xml
 from opp.exceptions import *
+
+# Probably the source override should be by source ID rather than URL.
+METADATA_OVERRIDE_SOURCES = [
+    "http://philpapers.org/recent?in_j=on&onlineOnly=on&in_a=off&hideAbstracts=on&format=html&limit=&proOnly=on&freeOnly=on&in_l=off&publishedOnly=off&start=0&range=90&latest=1&filterByAreas=off&nosh=1&in_w=on&sort=&jlist=1"
+]
+
 
 def next_source():
     """return the next source from db that's due to be checked"""
@@ -37,7 +44,7 @@ def next_source():
              " AND sourcetype != 'blog'"
              " LIMIT 1")
     cur.execute(query)
-    debug(4, cur._last_executed)
+    if hasattr(cur,"_last_executed"): debug(4, cur._last_executed)
     sources = cur.fetchall()
     if sources:
         debug(1, "processing new source")
@@ -56,7 +63,7 @@ def next_source():
              " AND last_checked < %s"
              " ORDER BY last_checked LIMIT 1")
     cur.execute(query, (min_age,))
-    debug(4, cur._last_executed)
+    if hasattr(cur,"_last_executed"): debug(4, cur._last_executed)
     sources = cur.fetchall()
     if sources:
         return Source(**sources[0])
@@ -71,7 +78,7 @@ def next_source():
              " AND last_checked < %s"
              " ORDER BY last_checked LIMIT 1")
     cur.execute(query, (min_age,))
-    debug(4, cur._last_executed)
+    if hasattr(cur,"_last_executed"): debug(4, cur._last_executed)
     sources = cur.fetchall()
     if sources:
         debug(1, "re-checking broken source")
@@ -491,7 +498,13 @@ def process_link(li, force_reprocess=False, redir_url=None, keep_tempfiles=False
     return 1
 
 def process_file(doc, keep_tempfiles=False):
-    """converts document to pdf, then xml, then extracts metadata"""
+    """
+        converts document to pdf, then xml, then extracts metadata
+        
+        SFM: TODO: For philpapers docs, extract the ID from the URL 
+                    then get metadata using philpaperssearch.get_metadata_from_id().
+    """
+    
     
     if doc.filetype != 'pdf':
         # convert to pdf
@@ -544,9 +557,25 @@ def process_file(doc, keep_tempfiles=False):
     doc.doctype = doctyper.evaluate(doc)
 
     # extract metadata:
+    ## Original method to get metadata
     from .docparser import paperparser
     if not paperparser.parse(doc, keep_tempfiles=keep_tempfiles):
         raise Exception('parser error')
+    
+    ## If we can get metadata from somewhere else, override what the parser just gave us.
+    if doc.source_url in METADATA_OVERRIDE_SOURCES:
+        
+        ## Get the philpapers doc ID from the url
+        doc_pp_internal_id = pps.philpapers_doc_id_from_url(doc.url)
+        
+        if doc_pp_internal_id:
+        
+            ## Get doc metadata from this ID
+            doc_pp_metadata = pps.get_metadata_from_id(doc_pp_internal_id)
+            
+            ## Overwrite the title and authors
+            doc.title = doc_pp_metadata['title']
+            doc.authors = doc_pp_metadata['authors']
 
 
 def check_steppingstone(page):
@@ -631,7 +660,9 @@ def convert_to_pdf(tempfile):
     outfile = tempfile.rsplit('.',1)[0]+'.pdf'
     try:
         cmd = ['/usr/bin/python3', '/usr/bin/unoconv', 
-               '-f', 'pdf', '-o', outfile, tempfile]
+                '-f', 'pdf', '-o', outfile, tempfile]
+        # cmd = ['/usr/bin/python3', '/usr/bin/unoserver', 
+        #        '-f', 'pdf', '-o', outfile, tempfile]
         debug(2, ' '.join(cmd))
         subprocess.check_call(cmd, timeout=20)
     except Exception as e:
@@ -677,7 +708,7 @@ def get_duplicate(doc):
     query = "SELECT * FROM docs WHERE status=1 AND " + (' AND '.join(where))
     query += " LIMIT 100"
     cur.execute(query, values)
-    debug(5, cur._last_executed)
+    if hasattr(cur,"_last_executed"): debug(5, cur._last_executed)
     dupes = cur.fetchall()
     for dupe in dupes:
         debug(5, "candidate: %s, '%s'", dupe['authors'], dupe['title'])

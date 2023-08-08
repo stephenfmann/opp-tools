@@ -1,4 +1,6 @@
 import re
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse, parse_qsl
 import sys
 try:
     from .debug import debug, debuglevel
@@ -76,6 +78,116 @@ def get_publications(author_name, strict=False):
             debug(4, 'no author match')
 
     return results
+
+
+def get_metadata_from_id(doc_id):
+    """
+    Call PhilPapers to get metadata from the doc_id.
+    
+    Format of the URL to call is 
+    "https://philpapers.org/oai.pl?verb=GetRecord&identifier={doc_id}"
+
+    Parameters
+    ----------
+    doc_id : str
+        PhilPapers internal document identifier e.g. 'REIRPI-2'.
+
+    Returns
+    -------
+    doc_metadata : dict
+        Basic metadata about the document from the returned XML.
+
+    """
+    
+    ## 1. GET XML
+    ## Get the URL to call
+    url_oai = f"https://philpapers.org/oai.pl?verb=GetRecord&identifier={doc_id}"
+    
+    ## Make the request
+    http_status_code, r = request_url(url_oai)
+    
+    ## Check code
+    assert http_status_code == 200 # TODO how to do this properly?
+    
+    ## 2. GET METADATA FROM XML
+    ## First use beautiful soup to parse the XML.
+    soup = BeautifulSoup(r.content, features="xml")
+    
+    ## Now get the title and creators of the document from the parsed document.
+    title   = soup.find("dc:title").text
+    authors_list = soup.find_all("dc:creator")
+    
+    ## Get author names into a format opp-tools expects
+    authors = ""
+    for author in authors_list:
+        
+        ## Philpapers lists "Lastname, Firstname" while opp-tools expects "Firstname Lastname".
+        name_list = author.text.split(", ")
+        
+        ## name_list is [Lastname, Firstnames]
+        author_name = f"{name_list[-1]} {name_list[0]}"
+        
+        ## Add to authors list
+        authors += f"{author_name}, "
+    
+    ## Remove final comma and space
+    if len(authors) > 2:
+        authors = authors[:-2]
+    
+    ## Create the metadata dict
+    doc_metadata = {
+        "title"     : title,
+        "authors"   : authors
+        }
+    
+    return doc_metadata
+
+def philpapers_doc_id_from_url(url):
+    """
+    Get the philpapers "internal identifier" of a document from its url.
+    E.g. from "https://philpapers.org/archive/REIRPI-2.pdf" should return "REIRPI-2".
+
+    Parameters
+    ----------
+    url : str
+        URL of the document at PhilPapers.
+
+    Returns
+    -------
+    doc_id : str
+        Philpapers ID of document.
+
+    """
+    
+    ## First check if the ID is in the url string parameters
+    ## Split the url into protocol, domain, location, [something], parameters, [something]
+    url_components = list(urlparse(url))
+    
+    ## If there is a parameters entry...
+    if len(url_components) >= 5:
+        
+        ## ...split the parameters into a dict.
+        url_params_dict = dict(parse_qsl(url_components[4]))
+        
+        ## If there is an ID param, return it now.
+        if "id" in url_params_dict: return url_params_dict["id"]
+            
+    ## Otherwise, try and get it directly
+    
+    ## Define the search regex
+    ## Get everything between the final forward-slash and the ".pdf"
+    regex_philpapers_doc_id = ".*/(.*)\.pdf"
+    
+    ## Apply the regex to the url
+    re_search = re.search(regex_philpapers_doc_id,url)
+    
+    ## Was the pattern found?
+    if re_search is None: return False
+    
+    doc_id = re_search.group(1)
+    
+    return doc_id
+
         
 if __name__ == "__main__":
 

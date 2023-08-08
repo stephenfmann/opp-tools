@@ -6,7 +6,12 @@ logger = logging.getLogger('opp')
 _debuglevel = 1
 
 def debuglevel(level=None):
-    """read or set debugging level (0=none, 5=heaps)"""
+    """read or set debugging level (0=none, 5=heaps)
+    
+    SFM but the logger object has its own setLevel() facility,
+     so why are we doing this?
+    
+    """
     if level:
         global _debuglevel
         _debuglevel = level
@@ -14,6 +19,7 @@ def debuglevel(level=None):
         return _debuglevel
 
 def debug(level, msg, *args):
+    
     if _debuglevel >= level:
         logger.debug(str(msg), *args)
 
