@@ -16,7 +16,7 @@ Forked to update requirements and packages for modern versions of MYSQL and Pyth
   + Add LibreOffice Personal Package Archive (PPA): `sudo add-apt-repository ppa:libreoffice/ppa`
   + Update apt: `sudo apt update`
   + Install LibreOffice: `sudo apt install libreoffice`
-+ [either unoserver or unoconv: `sudo pip install unoserver` or `sudo apt-get install unoconv`]
++ unoconv: `sudo apt-get install unoconv`
 
 **Python packages**
 + lxml: `sudo pip install lxml`
